@@ -26,7 +26,7 @@ For local development: `http://localhost:8080`
 | `GET` | `/api/v1/sectors/:id` | Single sector with its cells |
 | `GET` | `/api/v1/cells` | List all 2,149 cells (filter: `?sector_id=`) |
 | `GET` | `/api/v1/cells/:id` | Single cell with its villages |
-| `GET` | `/api/v1/villages` | List villages (filter: `?cell_id=`) |
+| `GET` | `/api/v1/villages` | List all 14,837 villages (filter: `?cell_id=`) |
 | `GET` | `/api/v1/search?q=kimironko` | Search across all geographic entities |
 
 ### Finance

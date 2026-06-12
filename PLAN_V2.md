@@ -28,7 +28,7 @@
 16. **Authentication** — Optional API keys for higher rate limits
 17. **Admin endpoints** — CRUD for managing seed data without redeploying
 18. **Webhook subscriptions** — Notify when exchange rates update
-19. **Full village data** — Complete 14,837 villages (currently only sample for Kimironko)
+19. ~~**Full village data**~~ — ✅ Done (14,837 villages)
 
 ## Priority
 
