@@ -8,7 +8,6 @@ import (
 	"github.com/mosesniyonk/rwandapi/internal/models"
 )
 
-// Search searches across all geographic entities.
 func Search(w http.ResponseWriter, r *http.Request) {
 	q := strings.TrimSpace(r.URL.Query().Get("q"))
 	if q == "" {
@@ -19,13 +18,11 @@ func Search(w http.ResponseWriter, r *http.Request) {
 	pattern := "%" + q + "%"
 	var results []models.SearchResult
 
-	// Search provinces
 	rows, err := database.DB.Query("SELECT id, name FROM provinces WHERE name LIKE ?", pattern)
 	if err == nil {
 		defer rows.Close()
 		for rows.Next() {
-			var id int
-			var name string
+			var id, name string
 			rows.Scan(&id, &name)
 			results = append(results, models.SearchResult{
 				Type: "province", ID: id, Name: name, Path: name,
@@ -33,7 +30,6 @@ func Search(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// Search districts
 	rows2, err := database.DB.Query(`
 		SELECT d.id, d.name, p.name
 		FROM districts d JOIN provinces p ON d.province_id = p.id
@@ -41,8 +37,7 @@ func Search(w http.ResponseWriter, r *http.Request) {
 	if err == nil {
 		defer rows2.Close()
 		for rows2.Next() {
-			var id int
-			var name, prov string
+			var id, name, prov string
 			rows2.Scan(&id, &name, &prov)
 			results = append(results, models.SearchResult{
 				Type: "district", ID: id, Name: name, Path: prov + " > " + name,
@@ -50,7 +45,6 @@ func Search(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// Search sectors
 	rows3, err := database.DB.Query(`
 		SELECT s.id, s.name, d.name, p.name
 		FROM sectors s
@@ -60,8 +54,7 @@ func Search(w http.ResponseWriter, r *http.Request) {
 	if err == nil {
 		defer rows3.Close()
 		for rows3.Next() {
-			var id int
-			var name, dist, prov string
+			var id, name, dist, prov string
 			rows3.Scan(&id, &name, &dist, &prov)
 			results = append(results, models.SearchResult{
 				Type: "sector", ID: id, Name: name,
@@ -70,7 +63,6 @@ func Search(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// Search cells
 	rows4, err := database.DB.Query(`
 		SELECT c.id, c.name, s.name, d.name, p.name
 		FROM cells c
@@ -81,8 +73,7 @@ func Search(w http.ResponseWriter, r *http.Request) {
 	if err == nil {
 		defer rows4.Close()
 		for rows4.Next() {
-			var id int
-			var name, sec, dist, prov string
+			var id, name, sec, dist, prov string
 			rows4.Scan(&id, &name, &sec, &dist, &prov)
 			results = append(results, models.SearchResult{
 				Type: "cell", ID: id, Name: name,
@@ -91,7 +82,6 @@ func Search(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// Search villages
 	rows5, err := database.DB.Query(`
 		SELECT v.id, v.name, c.name, s.name, d.name, p.name
 		FROM villages v
@@ -103,8 +93,7 @@ func Search(w http.ResponseWriter, r *http.Request) {
 	if err == nil {
 		defer rows5.Close()
 		for rows5.Next() {
-			var id int
-			var name, cell, sec, dist, prov string
+			var id, name, cell, sec, dist, prov string
 			rows5.Scan(&id, &name, &cell, &sec, &dist, &prov)
 			results = append(results, models.SearchResult{
 				Type: "village", ID: id, Name: name,

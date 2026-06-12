@@ -3,14 +3,12 @@ package handlers
 import (
 	"database/sql"
 	"net/http"
-	"strconv"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/mosesniyonk/rwandapi/internal/database"
 	"github.com/mosesniyonk/rwandapi/internal/models"
 )
 
-// ListProvinces returns all provinces.
 func ListProvinces(w http.ResponseWriter, r *http.Request) {
 	rows, err := database.DB.Query("SELECT id, name, created_at FROM provinces ORDER BY name")
 	if err != nil {
@@ -36,16 +34,11 @@ func ListProvinces(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-// GetProvince returns a single province with its districts.
 func GetProvince(w http.ResponseWriter, r *http.Request) {
-	id, err := strconv.Atoi(chi.URLParam(r, "id"))
-	if err != nil {
-		writeError(w, http.StatusBadRequest, "invalid province id")
-		return
-	}
+	id := chi.URLParam(r, "id")
 
 	var p models.Province
-	err = database.DB.QueryRow("SELECT id, name, created_at FROM provinces WHERE id = ?", id).
+	err := database.DB.QueryRow("SELECT id, name, created_at FROM provinces WHERE id = ?", id).
 		Scan(&p.ID, &p.Name, &p.CreatedAt)
 	if err == sql.ErrNoRows {
 		writeError(w, http.StatusNotFound, "province not found")
@@ -74,7 +67,6 @@ func GetProvince(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusOK, models.APIResponse{Success: true, Data: p})
 }
 
-// ListDistricts returns all districts, optionally filtered by province_id.
 func ListDistricts(w http.ResponseWriter, r *http.Request) {
 	query := "SELECT id, province_id, name, created_at FROM districts"
 	var args []interface{}
@@ -109,16 +101,11 @@ func ListDistricts(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-// GetDistrict returns a single district with its sectors.
 func GetDistrict(w http.ResponseWriter, r *http.Request) {
-	id, err := strconv.Atoi(chi.URLParam(r, "id"))
-	if err != nil {
-		writeError(w, http.StatusBadRequest, "invalid district id")
-		return
-	}
+	id := chi.URLParam(r, "id")
 
 	var d models.District
-	err = database.DB.QueryRow("SELECT id, province_id, name, created_at FROM districts WHERE id = ?", id).
+	err := database.DB.QueryRow("SELECT id, province_id, name, created_at FROM districts WHERE id = ?", id).
 		Scan(&d.ID, &d.ProvinceID, &d.Name, &d.CreatedAt)
 	if err == sql.ErrNoRows {
 		writeError(w, http.StatusNotFound, "district not found")
@@ -147,7 +134,6 @@ func GetDistrict(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusOK, models.APIResponse{Success: true, Data: d})
 }
 
-// ListSectors returns all sectors, optionally filtered by district_id.
 func ListSectors(w http.ResponseWriter, r *http.Request) {
 	query := "SELECT id, district_id, name, created_at FROM sectors"
 	var args []interface{}
@@ -182,16 +168,11 @@ func ListSectors(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-// GetSector returns a single sector with its cells.
 func GetSector(w http.ResponseWriter, r *http.Request) {
-	id, err := strconv.Atoi(chi.URLParam(r, "id"))
-	if err != nil {
-		writeError(w, http.StatusBadRequest, "invalid sector id")
-		return
-	}
+	id := chi.URLParam(r, "id")
 
 	var s models.Sector
-	err = database.DB.QueryRow("SELECT id, district_id, name, created_at FROM sectors WHERE id = ?", id).
+	err := database.DB.QueryRow("SELECT id, district_id, name, created_at FROM sectors WHERE id = ?", id).
 		Scan(&s.ID, &s.DistrictID, &s.Name, &s.CreatedAt)
 	if err == sql.ErrNoRows {
 		writeError(w, http.StatusNotFound, "sector not found")
@@ -220,7 +201,6 @@ func GetSector(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusOK, models.APIResponse{Success: true, Data: s})
 }
 
-// ListCells returns all cells, optionally filtered by sector_id.
 func ListCells(w http.ResponseWriter, r *http.Request) {
 	query := "SELECT id, sector_id, name, created_at FROM cells"
 	var args []interface{}
@@ -255,16 +235,11 @@ func ListCells(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-// GetCell returns a single cell with its villages.
 func GetCell(w http.ResponseWriter, r *http.Request) {
-	id, err := strconv.Atoi(chi.URLParam(r, "id"))
-	if err != nil {
-		writeError(w, http.StatusBadRequest, "invalid cell id")
-		return
-	}
+	id := chi.URLParam(r, "id")
 
 	var c models.Cell
-	err = database.DB.QueryRow("SELECT id, sector_id, name, created_at FROM cells WHERE id = ?", id).
+	err := database.DB.QueryRow("SELECT id, sector_id, name, created_at FROM cells WHERE id = ?", id).
 		Scan(&c.ID, &c.SectorID, &c.Name, &c.CreatedAt)
 	if err == sql.ErrNoRows {
 		writeError(w, http.StatusNotFound, "cell not found")
@@ -293,7 +268,6 @@ func GetCell(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusOK, models.APIResponse{Success: true, Data: c})
 }
 
-// ListVillages returns all villages, optionally filtered by cell_id.
 func ListVillages(w http.ResponseWriter, r *http.Request) {
 	query := "SELECT id, cell_id, name, created_at FROM villages"
 	var args []interface{}
