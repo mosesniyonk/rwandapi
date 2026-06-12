@@ -29,7 +29,6 @@
 17. **Admin endpoints** — CRUD for managing seed data without redeploying
 18. **Webhook subscriptions** — Notify when exchange rates update
 19. **Full village data** — Complete 14,837 villages (currently only sample for Kimironko)
-20. **Complete cell data** — Fill remaining ~426 cells to reach the full 2,148
 
 ## Priority
 

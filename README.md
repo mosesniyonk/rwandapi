@@ -24,7 +24,7 @@ For local development: `http://localhost:8080`
 | `GET` | `/api/v1/districts/:id` | Single district with its sectors |
 | `GET` | `/api/v1/sectors` | List all 416 sectors (filter: `?district_id=`) |
 | `GET` | `/api/v1/sectors/:id` | Single sector with its cells |
-| `GET` | `/api/v1/cells` | List all 1,722 cells (filter: `?sector_id=`) |
+| `GET` | `/api/v1/cells` | List all 2,149 cells (filter: `?sector_id=`) |
 | `GET` | `/api/v1/cells/:id` | Single cell with its villages |
 | `GET` | `/api/v1/villages` | List villages (filter: `?cell_id=`) |
 | `GET` | `/api/v1/search?q=kimironko` | Search across all geographic entities |
@@ -135,7 +135,7 @@ For local development: `http://localhost:8080`
 | Provinces | 5 |
 | Districts | 30 |
 | Sectors | 416 |
-| Cells | 1,722 |
+| Cells | 2,149 |
 | Banks | 10 (129 branches) |
 | Exchange Rates | 18 currencies |
 | Telecom Providers | 5 (MTN, Airtel, BSC, Liquid, Canal Box) |
